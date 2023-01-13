@@ -91,12 +91,22 @@ button {
 /* Navbar */
 
 #navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
   display: flex;
   justify-content: space-between;
-  background-color: var(--color-pink);
+  background-color: transparent;
   align-items: center;
   color: var(--color-white);
   padding: 16px;
+  z-index: 999;
+  transition: all var(--animation-duration) ease-in;
+}
+
+#navbar.navbar--dark {
+  background-color: var(--color-pink);
+  padding: 8px;
 }
 
 .navbar__menu {
@@ -128,6 +138,7 @@ button {
 
 #home {
   padding: 40px;
+  padding-top: 120px;
   text-align: center;
   background: url("./imgs/background-image.png") center/cover no-repeat;
 }
@@ -330,7 +341,7 @@ button {
   width: 280px;
   height: 250px;
   margin: 2px;
-  background-color: var(--color-light-grey);
+  background-color: var(--color-light-white);
 }
 .project__img {
   max-width: 100%;
@@ -371,4 +382,113 @@ button {
   margin-left: -12px;
   margin-top: 8px;
   background-color: var(--color-dark-white);
+}
+#testimonials {
+  background-color: var(--color-light-white);
+}
+.testimonials {
+  margin: 40px;
+}
+.testimonial {
+  display: flex;
+  margin: 32px 0;
+}
+.testimotial__avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.testimotial__avatar:nth-child(odd) {
+  margin-right: 40px;
+}
+.testimotial__avatar:nth-child(even) {
+  margin-left: 40px;
+}
+.testimonial__speech-bubble {
+  padding: 18px;
+  background-color: var(--color-white);
+  border-radius: var(--size-border-radius);
+}
+
+.testimonial__speech-bubble p {
+  color: var(--color-light-grey);
+}
+.testimonial__speech-bubble a {
+  color: var(--color-pink);
+}
+
+#contact {
+  background-color: var(--color-pink);
+}
+.contact__title,
+.contact__email {
+  color: var(--color-white);
+}
+
+.contact__rights {
+  color: var(--color-white);
+}
+.contact__title {
+  margin: 32px 0;
+}
+.contact__links {
+  font-size: var(--font-large);
+  margin: 24px 0;
+}
+.contact__links i {
+  transition: all var(--animation-duration) ease-in;
+}
+.contact__links i:hover {
+  transform: scale(1.1);
+  color: var(--color-yellow);
+}
+
+.navbar__toggle-btn {
+  position: absolute;
+  top: 8px;
+  right: 32px;
+  font-size: 24px;
+  color: var(--color-white);
+  display: none;
+  /* opacity이용해도됨. 근데 이벤트는 발생함. */
+}
+
+@media screen and (max-width: 768px) {
+  .navbar__toggle-btn {
+    display: block;
+  }
+
+  #navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar__menu {
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    display: none;
+  }
+
+  .about_majors {
+    flex-direction: column;
+  }
+  .major {
+    margin-bottom: 38px;
+  }
+
+  .skillset {
+    flex-direction: column;
+  }
+
+  .project {
+    flex-grow: 1;
+    /* 알아서 화면을 매꿔줌 */
+  }
+
+  .testimotial__avatar {
+    width: 80px;
+    height: 80px;
+  }
 }

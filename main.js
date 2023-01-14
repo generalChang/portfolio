@@ -35,14 +35,17 @@ navbarMenu.addEventListener("click", (e) => {
   if (link == null) {
     return;
   }
-
   scrollIntoView(`#${link}`);
+  setActiveMenu(link);
+  target.classList.add("active");
+  navbarMenu.classList.remove("open");
 });
 
 //handle click on contact me button on home
 const homeContactBtn = document.querySelector(".home__contact");
 homeContactBtn.addEventListener("click", () => {
   scrollIntoView(`#contact`);
+  setActiveMenu("contact");
 });
 
 function scrollIntoView(selector) {
@@ -71,6 +74,7 @@ window.addEventListener("scroll", () => {
 
 arrowBtn.addEventListener("click", () => {
   scrollIntoView("#home");
+  setActiveMenu("home");
 });
 
 const categorys = document.querySelector(".work__categorys");
@@ -115,3 +119,20 @@ function showWorksForCategory(category) {
     }
   });
 }
+
+const menuButtons = document.querySelectorAll(".navbar__menu__item");
+function setActiveMenu(menuName) {
+  const prevActiveButton = document.querySelector(".navbar__menu__item.active");
+  prevActiveButton.classList.remove("active");
+
+  menuButtons.forEach((menu) => {
+    if (menu.dataset.id === menuName) {
+      menu.classList.add("active");
+    }
+  });
+}
+
+const navbarToggleButton = document.querySelector(".navbar__toggle-btn");
+navbarToggleButton.addEventListener("click", () => {
+  navbarMenu.classList.toggle("open");
+});

@@ -166,6 +166,9 @@ button {
   color: var(--color-white);
 }
 
+.home__contact:hover {
+  background-color: var(--color-orange);
+}
 .section {
   padding: 50px;
   text-align: center;
@@ -301,6 +304,7 @@ button {
   border: 1px solid var(--color-dark-white);
   border-radius: 4px;
   font-size: var(--font-regular);
+  position: relative;
   padding: 8px 48px;
 }
 .category_btn.active,
@@ -317,16 +321,16 @@ button {
   height: 24px;
   display: inline-block;
   line-height: 24px;
-  position: relative;
+  position: absolute;
   top: -20px;
-  left: 4px;
+  right: 16px;
   opacity: 0;
   transition: all var(--animation-duration) ease-in;
 }
 .category_btn.active .category__count,
 .category_btn:hover .category__count {
   opacity: 1;
-  top: 0;
+  top: 5px;
 }
 
 .work__projects {
@@ -489,7 +493,26 @@ button {
   /* 클릭이 안되게끔 만들기 */
 }
 
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
 @media screen and (max-width: 768px) {
+  :root {
+    --font-large: 30px;
+    --font-medium: 18px;
+    --font-regular: 16px;
+    --font-small: 16px;
+    --font-micro: 14px;
+  }
+
   .navbar__toggle-btn {
     display: block;
   }
@@ -508,16 +531,23 @@ button {
   }
   .navbar__menu.open {
     display: block;
+    animation: fadeInDown var(--animation-duration) ease-in;
   }
   #navbar.navbar--dark {
     padding: 16px;
   }
 
+  .section {
+    padding: 16px;
+  }
+
   .about_majors {
     flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 0px;
   }
   .major {
-    margin-bottom: 38px;
+    margin-bottom: 30px;
   }
 
   .skillset {
@@ -528,9 +558,34 @@ button {
     flex-grow: 1;
     /* 알아서 화면을 매꿔줌 */
   }
+  .category_btn {
+    margin: 4px;
+  }
+
+  .testimonial {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .testimotial__avatar:nth-child(odd) {
+    margin-right: 0px;
+  }
+
+  .testimotial__avatar:nth-child(even) {
+    margin-left: 0px;
+  }
 
   .testimotial__avatar {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 16px;
+  }
+
+  .testimonial__speech-bubble {
+    order: 1;
+  }
+
+  .category_btn {
+    width: 100%;
   }
 }

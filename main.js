@@ -35,9 +35,9 @@ navbarMenu.addEventListener("click", (e) => {
   if (link == null) {
     return;
   }
-  scrollIntoView(`#${link}`);
-  setActiveMenu(link);
-  target.classList.add("active");
+  scrollIntoView(link);
+  // setActiveMenu(link);
+  selectNavItem(target);
   navbarMenu.classList.remove("open");
 });
 
@@ -45,7 +45,8 @@ navbarMenu.addEventListener("click", (e) => {
 const homeContactBtn = document.querySelector(".home__contact");
 homeContactBtn.addEventListener("click", () => {
   scrollIntoView(`#contact`);
-  setActiveMenu("contact");
+  selectNavItem(document.querySelector(`[data-id="#contact"]`));
+  // setActiveMenu("contact");
 });
 
 function scrollIntoView(selector) {
@@ -57,6 +58,7 @@ function scrollIntoView(selector) {
 
 const home = document.querySelector(".home_container");
 const homeHeight = home.getBoundingClientRect().height;
+
 window.addEventListener("scroll", () => {
   const scrollY = window.scrollY;
   home.style.setProperty("opacity", `${1 - scrollY / homeHeight}`);
@@ -74,7 +76,8 @@ window.addEventListener("scroll", () => {
 
 arrowBtn.addEventListener("click", () => {
   scrollIntoView("#home");
-  setActiveMenu("home");
+  selectNavItem(document.querySelector(`[data-id="#home"]`));
+  // setActiveMenu("home");
 });
 
 const categorys = document.querySelector(".work__categorys");
@@ -135,4 +138,63 @@ function setActiveMenu(menuName) {
 const navbarToggleButton = document.querySelector(".navbar__toggle-btn");
 navbarToggleButton.addEventListener("click", () => {
   navbarMenu.classList.toggle("open");
+});
+
+//섹션을 다 가져옴.
+const sectionIds = [
+  "#home",
+  "#about",
+  "#skills",
+  "#work",
+  "#testimonials",
+  "#contact",
+];
+const sections = sectionIds.map((id) => document.querySelector(id));
+const navItems = sectionIds.map((id) =>
+  document.querySelector(`[data-id="${id}"]`)
+);
+let selectedNavItem = navItems[0];
+let selectedNavIndex;
+
+function selectNavItem(selected) {
+  selectedNavItem.classList.remove("active");
+  selectedNavItem = selected;
+  selectedNavItem.classList.add("active");
+}
+const observerOptions = {
+  root: null,
+  rootMargin: "0px",
+  threshold: 0.3,
+};
+
+const observerCallback = (entries, observer) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting && entry.intersectionRatio > 0) {
+      const index = sectionIds.indexOf(`#${entry.target.id}`);
+      if (entry.boundingClientRect.y < 0) {
+        //해당 섹션이 위로 빠졌음.
+        selectedNavIndex = index + 1;
+      } else {
+        //해당 섹션이 밑으로 빠졌음.
+        selectedNavIndex = index - 1;
+      }
+    }
+  });
+};
+const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+sections.forEach((section) => {
+  observer.observe(section);
+});
+
+window.addEventListener("wheel", () => {
+  if (window.scrollY === 0) {
+    selectedNavIndex = 0;
+  } else if (
+    Math.round(window.scrollY + window.innerHeight) + 1 >=
+    document.body.clientHeight
+  ) {
+    selectedNavIndex = navItems.length - 1;
+  }
+  selectNavItem(navItems[selectedNavIndex]);
 });
